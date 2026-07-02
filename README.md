@@ -2,9 +2,9 @@
 
 # Tic-Tac-Toe
 
-**A modern, full-stack Tic-Tac-Toe game with real AI opponents.**
+**A clean, local two-player Tic-Tac-Toe game.**
 
-Built with React on the frontend and Python on the backend, featuring Player vs Player and Player vs AI modes across three difficulty levels — including a genuinely unbeatable Hard mode powered by Minimax.
+Built with React on the frontend and Python on the backend. No AI, no online play, just you and a friend sharing one board.
 
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Build-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -21,11 +21,7 @@ Built with React on the frontend and Python on the backend, featuring Player vs 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Game Modes](#game-modes)
-- [AI Difficulty Levels](#ai-difficulty-levels)
-- [Core Algorithms](#core-algorithms)
-- [Game Flow](#game-flow)
-- [Performance](#performance)
+- [How It Works](#how-it-works)
 - [Getting Started](#getting-started)
 - [Roadmap](#roadmap)
 - [License](#license)
@@ -36,13 +32,12 @@ Built with React on the frontend and Python on the backend, featuring Player vs 
 
 | | |
 |---|---|
-| 🎯 | Play with a friend, locally, on the same board |
-| 🤖 | Play against AI, with three distinct difficulty levels |
-| 🏆 | Automatic winner detection across all win conditions |
-| 🤝 | Draw detection when the board fills with no winner |
-| 🔄 | One-click restart, no page reload needed |
-| 📊 | Running scoreboard across matches |
-| 📱 | Fully responsive, works on desktop and mobile |
+| 🎯 | Two players, one board, alternating turns |
+| 🏆 | Automatic winner detection |
+| 🤝 | Draw detection when the board fills up |
+| 🔄 | Restart the game with one click |
+| 📊 | Scoreboard that tracks wins across rounds |
+| 📱 | Responsive, works on desktop and mobile |
 
 <br>
 
@@ -69,7 +64,6 @@ tic-tac-toe/
 │   ├── app.py
 │   ├── game.py
 │   ├── routes.py
-│   ├── ai.py
 │   └── requirements.txt
 │
 ├── frontend/
@@ -86,11 +80,9 @@ tic-tac-toe/
 
 <br>
 
-## Game Modes
+## How It Works
 
-### Player vs Player
-
-Two players share the board, alternating turns as X and O.
+Two players take turns placing X and O on a 3x3 board. First to line up three in a row (across, down, or diagonally) wins. If the board fills up with no line completed, it's a draw.
 
 ```
 1. Initialize empty board, current player = X
@@ -104,92 +96,7 @@ Two players share the board, alternating turns as X and O.
      - Switch active player
 ```
 
-### Player vs AI
-
-The player takes X, the AI takes O.
-
-```
-1. Initialize board (Player = X, AI = O)
-2. Loop until game ends:
-     - Player moves → validate → update board → check winner/draw
-     - If game not over → AI calculates and plays its move
-     - Check winner/draw again
-```
-
-<br>
-
-## AI Difficulty Levels
-
-<table>
-<tr><td width="90"><b>🟢 Easy</b></td><td>Picks a random empty cell. No strategy — great for beginners.</td></tr>
-<tr><td><b>🟡 Medium</b></td><td>Rule-based: wins if it can, blocks the player if it must, otherwise plays randomly.</td></tr>
-<tr><td><b>🔴 Hard</b></td><td>Uses the Minimax algorithm to always play optimally. Unbeatable at best play — you can tie it, never beat it.</td></tr>
-</table>
-
-**Medium logic:**
-```
-If AI can win this turn      → take the win
-Else if player can win next  → block them
-Else                          → play a random open cell
-```
-
-**Hard logic (Minimax):**
-```
-For every empty cell:
-    Simulate AI move
-    Recursively score the resulting position
-    Undo the simulated move
-Play the cell with the highest score
-```
-
-<br>
-
-## Core Algorithms
-
-**Winner detection** checks all 8 possible lines — 3 rows, 3 columns, and both diagonals — for three matching symbols.
-
-**Draw detection** fires when the board has no empty cells left and no line has produced a winner.
-
-<br>
-
-## Game Flow
-
-```
-                    Choose Game Mode
-                    ┌──────┴──────┐
-                    ▼             ▼
-              Play Friend     Play AI
-                    │             │
-                    ▼             ▼
-              Player Move    Player Move
-                    │             │
-                    ▼             ▼
-              Check Winner   Check Winner
-                    │             │
-                    ▼             ▼
-               Switch Turn    AI Move
-                    └──────┬──────┘
-                           ▼
-              Repeat until Winner or Draw
-                           ▼
-                    Display Result
-                           ▼
-                     Play Again?
-```
-
-<br>
-
-## Performance
-
-| Operation | Complexity |
-|---|---|
-| Winner check | O(1) |
-| Draw check | O(1) |
-| Easy AI | O(n) |
-| Medium AI | O(n) |
-| Hard AI (Minimax) | O(b^d) |
-
-`b` = branching factor, `d` = search depth.
+Winner detection checks all 8 possible lines — 3 rows, 3 columns, and both diagonals — for three matching symbols.
 
 <br>
 
@@ -205,7 +112,7 @@ Play the cell with the highest score
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/OdomCH/.git
 cd YOUR_REPOSITORY
 ```
 
@@ -238,14 +145,9 @@ npm run dev
 
 ## Roadmap
 
-- [ ] Online multiplayer
-- [ ] User authentication
-- [ ] Player statistics
-- [ ] Leaderboard
 - [ ] Sound effects
 - [ ] Dark / light theme toggle
-- [ ] In-game chat
-- [ ] Progressive Web App support
+- [ ] Match history
 
 <br>
 
