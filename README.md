@@ -162,8 +162,8 @@ Winner detection checks all 8 possible lines — 3 rows, 3 columns, and both dia
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd YOUR_REPOSITORY
+git clone https://github.com/OdomCH/Tic-tac-toe-Game-.git
+cd Tic-tac-toe-Game-
 ```
 
 ### 2. Set up the backend
