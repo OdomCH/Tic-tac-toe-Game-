@@ -73,8 +73,13 @@ tic-tac-toe/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   ├── pages/
+|   |   |   ├── Board.jsx
+|   |   |   ├── Cell.jsx
+|   |   |   ├── ModeSelect.jsx
+|   |   |   ├── ScoreBoard.jsx
 │   │   ├── services/
+|   |   |   ├── api.js
+|   |   |   ├── gameBoard.js
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   └── package.json
