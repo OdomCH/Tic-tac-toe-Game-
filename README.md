@@ -23,7 +23,7 @@ Built with React on the frontend and Python on the backend. Play locally with a 
 - [Project Structure](#project-structure)
 - [Game Modes](#game-modes)
 - [AI Difficulty Levels](#ai-difficulty-levels)
-- [How It Works](#how-it-works)
+- [Algorithm](#algorithm)
 - [Getting Started](#getting-started)
 - [Roadmap](#roadmap)
 - [License](#license)
@@ -73,13 +73,8 @@ tic-tac-toe/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-|   |   |   ├── Board.jsx
-|   |   |   ├── Cell.jsx
-|   |   |   ├── ModeSelect.jsx
-|   |   |   ├── ScoreBoard.jsx
+│   │   ├── pages/
 │   │   ├── services/
-|   |   |   ├── api.js
-|   |   |   ├── gameBoard.js
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   └── package.json
@@ -147,11 +142,93 @@ Play the cell with the highest score
 
 <br>
 
-## How It Works
+## Algorithm
 
-Both game modes share the same core rules: place three matching symbols in a row (across, down, or diagonally) to win. If the board fills up with no line completed, it's a draw.
+Both game modes share the same core rules: place three matching symbols in a row (across, down, or diagonally) to win. If the board fills up with no line completed, it's a draw. Here's how the whole thing runs, end to end.
 
-Winner detection checks all 8 possible lines — 3 rows, 3 columns, and both diagonals — for three matching symbols.
+### Overall Game Flow
+
+```
+START
+
+Choose mode: Friend or AI
+If AI mode → choose difficulty (Easy / Medium / Hard)
+
+Initialize empty 3x3 board
+Current player = X
+
+LOOP until game ends:
+    If it's the human's turn:
+        Wait for a cell click
+        If cell is occupied → ignore, wait again
+        Place X (or O) in that cell
+
+    If it's the AI's turn (AI mode only):
+        Send current board + difficulty to backend
+        Backend calculates AI's move
+        Place O in that cell
+
+    Check for a winner (see below)
+    If winner found → show result, update score, END
+
+    Check for a draw (see below)
+    If board is full and no winner → show draw, update score, END
+
+    Switch turns
+
+END LOOP
+```
+
+### Winner Check
+
+Runs after every move, checking all 8 possible lines: 3 rows, 3 columns, and both diagonals.
+
+```
+FOR each of the 8 win-lines:
+    IF all 3 cells in that line are filled with the same symbol:
+        RETURN that symbol as the winner
+RETURN no winner
+```
+
+### Draw Check
+
+```
+IF every cell is filled
+AND no winner exists:
+    RETURN draw
+```
+
+### AI Logic (runs on the backend)
+
+**Easy** — no strategy, just picks a random empty cell:
+
+```
+Find all empty cells
+Pick one at random
+```
+
+**Medium** — simple priority rules:
+
+```
+IF AI can win this turn → take that move
+ELSE IF player can win next turn → block that cell
+ELSE → pick a random empty cell
+```
+
+**Hard** — Minimax, plays perfectly:
+
+```
+FOR each empty cell:
+    Simulate placing AI's symbol there
+    Recursively score the resulting position:
+        +10 if that leads to an AI win (sooner = higher score)
+        -10 if it leads to a player win
+        0 if it leads to a draw
+    Undo the simulated move
+Pick the cell with the highest score
+```
+
+The client handles the board and turn-taking instantly, and only calls out to the backend when it's the AI's turn to move.
 
 <br>
 
@@ -167,8 +244,8 @@ Winner detection checks all 8 possible lines — 3 rows, 3 columns, and both dia
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/OdomCH/Tic-tac-toe-Game-.git
-cd Tic-tac-toe-Game-
+git clone https://github.com/OdomCH/Tic-tac-toe-Game.git
+cd YOUR_REPOSITORY
 ```
 
 ### 2. Set up the backend
